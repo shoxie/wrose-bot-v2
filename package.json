@@ -1,0 +1,31 @@
+{
+  "name": "wrose-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoxie/wrose-bot-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shoxie/wrose-bot-v2/issues"
+  },
+  "homepage": "https://github.com/shoxie/wrose-bot-v2#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "discord-paginationembed": "^2.1.0",
+    "discord-player": "^3.0.2",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "enmap": "^5.8.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.14",
+    "socket.io": "^2.3.0",
+    "yt-search": "^2.4.2"
+  }
+}
