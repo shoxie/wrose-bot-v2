@@ -1,5 +1,4 @@
 module.exports = (client, message) => {
-  console.log(message.content);
   // Ignore all bots
   if (message.author.bot) return;
 

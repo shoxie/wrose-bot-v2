@@ -1,5 +1,6 @@
 const spotify = require("./spotify");
-
+const requestedSong = require("./requestedSong");
 module.exports = {
-    spotify
-}
+  spotify,
+  requestedSong,
+};

@@ -7,7 +7,7 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 const client = new Discord.Client({ disableEveryone: true });
 const config = require("./config/config.json");
-const { Player } = require("discord-player");
+const { Player } = require("discord-music-player");
 const mongoose = require("mongoose");
 let db = require("./model/");
 // Create a new Player (you don't need any API Key)
@@ -24,17 +24,6 @@ fs.readdir("./events/", (err, files) => {
     client.on(eventName, event.bind(null, client));
   });
 });
-client.on("presenceUpdate", (oldPresence, newPresence) => {
-  newPresence.member.presence.activities.forEach(async (activity) => {
-    if (activity.name === "Spotify") {
-      await client.db.spotify.insert(
-        activity.details,
-        newPresence.guild.id
-      );
-    }
-  });
-});
-// client.guilds.cache.get("335604901730058243")
 client.commands = new Enmap();
 client.categories = new Enmap();
 client.queue = new Enmap();
