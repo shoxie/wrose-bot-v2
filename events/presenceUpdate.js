@@ -6,6 +6,8 @@ module.exports = (client, oldPresence, newPresence) => {
         activity.state,
         newPresence.guild.id
       );
+      let spotifyData = client.db.spotify.getAllSpotifySongs(newPresence.guild.id);
+      client.io.emit("SPOTIFYDATA", spotifyData);
     }
   });
 };

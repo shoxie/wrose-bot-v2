@@ -1,7 +1,6 @@
 exports.run = async (client, message, args) => {
   let voiceChannel = message.member.voice.channel;
   let guildID = message.guild.id;
-  client.player.play(voiceChannel, args.join(" "));
   if (client.player.isPlaying(guildID)) {
     let song = await client.player.addToQueue(guildID, args.join(" "));
     song = song.song;
@@ -16,17 +15,33 @@ exports.run = async (client, message, args) => {
     message.channel.send(
       `Currently playing ${song.name}! - Requested by ${song.requestedBy}`
     );
-    await collector(client, song, guildID);
+    // await collector(client, song, guildID);
+    let package = {
+      playing: "Currently playing at " + message.channel.name,
+      player: {
+        currentSong: song.name,
+        duration: song.duration,
+        url: song.url,
+        thumbnail: song.thumbnail,
+        requestedBy: song.requestedBy,
+      },
+      songs: "1",
+      //  client.player.getQueue(guildID).songs,
+    };
+    client.io.emit("SERVERMUSICDATA", package);
   }
   client.player
     .getQueue(guildID)
     .on("end", () => {
+      // client.io.emit("SERVERMUSICDATA", package);
       message.channel.send("There is no more music in the queue!");
     })
     .on("songChanged", (oldSong, newSong) => {
+      // client.io.emit("SERVERMUSICDATA", package);
       message.channel.send(`Now playing ${newSong.name}...`);
     })
     .on("channelEmpty", () => {
+      // client.io.emit("SERVERMUSICDATA", package);
       message.channel.send(
         "Stop playing, there is no more member in the voice channel..."
       );
@@ -34,15 +49,6 @@ exports.run = async (client, message, args) => {
 };
 async function collector(client, song, guildID) {
   await client.db.requestedSong.insert(song.name, guildID);
-  let data = {
-    status: client.player.isPlaying(guildID) ? true : false,
-    queue: client.player.getQueue(guildID)
-      ? client.player.getQueue(guildID)
-      : null,
-    currentSong: song.name,
-    currentSongUrl: song.url,
-    thumbnail: song.thumbnail,
-  };
 }
 exports.help = {
   name: "play",

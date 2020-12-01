@@ -5,6 +5,8 @@ const osu = require("node-os-utils");
 const os = require("os");
 require("moment-duration-format");
 const moment = require("moment");
+var schedule = require("node-schedule");
+
 module.exports = async (client) => {
   let systemInfo = {
     osType: os.type(),
@@ -34,36 +36,49 @@ module.exports = async (client) => {
   });
   io.on("connection", (socket) => {
     io.emit("INITDATA", clientData);
-    client.io = io;
+    client.io = socket;
     io.emit("SERVERS", serversData);
     socket.on("getServerSpotifyData", async (guildID) => {
       let spotifyData = await client.db.spotify.getAllSpotifySongs(guildID);
-      // console.log(spotifyData);
+      console.log(spotifyData);
       socket.emit("SPOTIFYDATA", spotifyData);
     });
     socket.on("getServerMusicData", async (guildID) => {
-      console.log("clinet call");
       let data = await client.player.getQueue(guildID);
-      let package = {
-        playing:
-          data !== undefined
-            ? "Playing at " + data.channel.name
-            : "Not playing",
-        player: {
-          currentSong: data !== undefined ? data.songs[0].songName : null,
-          duration: data !== undefined ? data.duration : null,
-          url: data !== undefined ? data.url : null,
-          thumbnail: data !== undefined ? data.thumbnail : null,
-          requestedBy: data !== undefined ? data.requestedBy : null,
-        },
-        songs: data !== undefined ? data.songs : null,
-      };
-      console.log(package);
-      socket.emit("SENDSERVERMUSICDATA", package);
+      if (data !== undefined) {
+        let package = {
+          playing: "Currently playing at " + data.connection.channel.name,
+          player: {
+            currentSong: data.songs[0].songName,
+            duration: data.duration,
+            url: data.url,
+            thumbnail: data.thumbnail,
+            requestedBy: data.requestedBy,
+          },
+          songs: data.songs,
+        };
+        client.io.emit("SERVERMUSICDATA", package);
+      } else {
+        let package = {
+          playing: "Not Playing",
+          player: {
+            currentSong: "Not Playing",
+            duration: "Not Playing",
+            url: "Not Playing",
+            thumbnail: "Not Playing",
+            requestedBy: "Not Playing",
+          },
+          songs: "Not Playing",
+        };
+        client.io.emit("SERVERMUSICDATA", package);
+      }
     });
   });
   http.listen(3000, () => {
     console.log("listening on *:3000");
   });
-  module.exports = io;
+
+  var sendData = schedule.scheduleJob('59 59 23 * *', function() {
+    
+  })
 };

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const songSchema = mongoose.Schema({
   song_name: { type: String },
   artist: { type: String },
-  guildID: { type: String },
+  guildID: { type: Number },
   count: {
     type: Number,
     default: 1,
@@ -33,8 +33,22 @@ async function insert(name, artistname, guildID) {
     await check.update({ $inc: { count: 1 } });
   }
 }
-async function getAllSpotifySongs(guildID) {
-  return song.find({ guildID: guildID }).sort({ count: -1 });
+async function getAllSpotifySongs(guildID = null) {
+  if (guildID) {
+    let a = await song.find({ guildID: guildID }).sort({ count: -1 }).exec();
+    let array = [];
+    a.forEach((song) => {
+      array.push(song);
+    });
+    return array;
+  } else {
+    let a = await song.find().sort({ count: -1 }).exec();
+    let array = [];
+    a.forEach((song) => {
+      array.push(song);
+    });
+    return array;
+  }
 }
 module.exports = {
   check_exists,

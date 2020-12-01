@@ -1,8 +1,13 @@
-const Discord = require("discord.js");
+// const Discord = require("discord.js");
 
-const client = new Discord.Client();
+// const client = new Discord.Client();
 
+// client.on("message", (message) => {
+//     message.author.username
+// });
 
-client.on('message', message =>{
-  message.member.voice.channel
-})
+const moment = require('moment')
+
+setInterval(() => {
+    console.log(moment().format('DD/MM/YYYY'))
+}, 1000);
