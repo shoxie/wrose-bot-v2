@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
       datasets: [{ labels: "LineChart", data: [] }],
     },
   };
-  let data = getMyChat(message.author.id);
+  let data = getMyChat(message.author.id, message.guild.id);
   data.forEach((e) => {
     queryData.data.labels.push(e.date);
     queryData.data.datasets[0].data.push(e.count);

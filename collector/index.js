@@ -81,8 +81,8 @@ function getTop10(id = null) {
     return data;
   }
 }
-function getMyChat(userid) {
-  let data = db.get("users").filter({ userid: userid }).take(10).value();
+function getMyChat(userid, guildID) {
+  let data = db.get("users").filter({ userid: userid, guildID: guildID }).take(10).value();
   return data;
 }
 module.exports = {
