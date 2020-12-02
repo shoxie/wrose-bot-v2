@@ -1,5 +1,5 @@
 #additional
-collector/db.json
+collector/*.json
 # Logs
 logs
 *.log

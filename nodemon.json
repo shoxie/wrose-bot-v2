@@ -1,4 +1,4 @@
 {
   "verbose": false,
-  "ignore": ["test.js", "collector/*"]
+  "ignore": ["test.js", "collector/db.json"]
 }

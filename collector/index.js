@@ -6,21 +6,7 @@ const db = low(adapter);
 const moment = require("moment");
 db.defaults({ records: [], users: [] }).write();
 
-function run() {
-  console.log("1");
-  // Set some defaults (required if your JSON file is empty)
-
-  // Add a post
-  db.get("users").push({ name: "Uchiha WhiteRose", count: 1 }).write();
-
-  // Set a user using Lodash shorthand syntax
-  db.set("user.name", "typicode").write();
-
-  // Increment count
-  db.update("count", (n) => n + 1).write();
-}
 async function count(username, content, userid, guildID) {
-  console.log("1");
   db.get("records")
     .push({
       name: username,
@@ -35,6 +21,7 @@ async function count(username, content, userid, guildID) {
       .push({
         name: username,
         userid: userid,
+        guildID:guildID,
         count: 1,
         date: moment().format("DD/MM/YYYY"),
       })
@@ -45,7 +32,24 @@ async function count(username, content, userid, guildID) {
       .update("count", (n) => n + 1)
       .write();
 }
+function spam(client) {
+  setInterval(() => {
+    let data1 = db.get("users").take(10).sortBy("count").value();
+    let labels = [],
+      dataset = [];
+    data1.forEach((elem) => {
+      labels.push(elem.name);
+      dataset.push(elem.count);
+    });
+    let data2 = {
+      labels: labels,
+      dataset: dataset,
+    };
+    client.io.emit("CHARTDATA", data2);
+  }, 1500);
+}
 module.exports = {
-  run,
   count,
+  spam,
+  db,
 };

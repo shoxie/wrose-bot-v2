@@ -6,7 +6,7 @@ const os = require("os");
 require("moment-duration-format");
 const moment = require("moment");
 var schedule = require("node-schedule");
-
+const collector = require("../collector");
 module.exports = async (client) => {
   let systemInfo = {
     osType: os.type(),
@@ -40,7 +40,6 @@ module.exports = async (client) => {
     io.emit("SERVERS", serversData);
     socket.on("getServerSpotifyData", async (guildID) => {
       let spotifyData = await client.db.spotify.getAllSpotifySongs(guildID);
-      console.log(spotifyData);
       socket.emit("SPOTIFYDATA", spotifyData);
     });
     socket.on("getServerMusicData", async (guildID) => {
@@ -73,12 +72,11 @@ module.exports = async (client) => {
         client.io.emit("SERVERMUSICDATA", package);
       }
     });
+    collector.spam(client);
   });
   http.listen(3000, () => {
     console.log("listening on *:3000");
   });
 
-  var sendData = schedule.scheduleJob('59 59 23 * *', function() {
-    
-  })
+  var sendData = schedule.scheduleJob("59 59 23 * *", function () {});
 };
