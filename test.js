@@ -12,21 +12,27 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("./collector/db.json");
 const db = low(adapter);
 
-function getRecords() {
-  let data = db.get("users").take(10).sortBy("count").value();
-  let labels = [],
-    dataset = [];
-  data.forEach((elem) => {
-    labels.push(elem.name);
-    dataset.push(elem.count);
-  });
-  let package = {
-    labels: labels,
-    dataset: dataset,
-  };
-  console.log(package);
-}
-getRecords();
+var data = db
+  .get("users")
+  .find({ guildID: "335604901730058243" })
+  .take(10)
+  .value();
+console.log(data);
+// function getRecords() {
+//   let data = db.get("users").take(10).sortBy("count").value();
+//   let labels = [],
+//     dataset = [];
+//   data.forEach((elem) => {
+//     labels.push(elem.name);
+//     dataset.push(elem.count);
+//   });
+//   let package = {
+//     labels: labels,
+//     dataset: dataset,
+//   };
+//   console.log(package);
+// }
+// getRecords();
 
 // let data = db.get("records").value();
 // let a = []

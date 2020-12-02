@@ -60,13 +60,16 @@ function getTop10(id = null) {
     let data = db.get("users").take(10).sortBy("count").value();
     return data;
   } else {
+    let size = db.get("users").size().value(),
+      length;
+    if (size > 10) length = 10;
+    else length = size;
     let data = db
       .get("users")
-      .find({ guildID: id })
+      .filter({ guildID: id })
       .take(10)
       .sortBy("count")
       .value();
-    console.log(data);
     return data;
   }
 }
