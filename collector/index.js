@@ -16,7 +16,10 @@ async function count(username, content, userid, guildID, channelID) {
       guildID: guildID,
     })
     .write();
-  let check = db.get("users").find({ userid: userid }).value();
+  let check = db
+    .get("users")
+    .find({ userid: userid, guildID: guildID })
+    .value();
   if (check === undefined)
     db.get("users")
       .push({
