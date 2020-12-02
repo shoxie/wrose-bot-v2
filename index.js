@@ -50,7 +50,7 @@ function getjs(directory) {
       let props = require(`${directory}/${file1}`);
       let commandName = file1.split(".")[0];
       console.log(`Attempting to load command ${commandName}`);
-      client.commands.set(commandName, props);
+      client.commands.set(commandName.toLowerCase(), props);
     });
   });
 }

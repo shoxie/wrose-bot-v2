@@ -2,12 +2,13 @@ const collector = require("../collector/");
 module.exports = (client, message) => {
   // Ignore all bots
   if (message.author.bot) return;
-  
+
   collector.count(
     message.author.username,
     message.content,
     message.author.id,
-    message.guild.id
+    message.guild.id,
+    message.channel.id
   );
 
   // Ignore messages not starting with the prefix (in config.json)
