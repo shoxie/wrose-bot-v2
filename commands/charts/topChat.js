@@ -31,6 +31,13 @@ exports.run = async (client, message, args) => {
         },
       ],
     },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Stepped line",
+      },
+    },
   });
   message.channel.send(await myChart.getShortUrl());
 };

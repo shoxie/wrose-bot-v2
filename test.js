@@ -1,10 +1,10 @@
-// const Discord = require("discord.js");
+const Discord = require("discord.js");
 
-// const client = new Discord.Client();
+const client = new Discord.Client();
 
-// client.on("message", (message) => {
-//     message.author.username
-// });
+client.on("message", (message) => {
+    message.author.username
+});
 
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");

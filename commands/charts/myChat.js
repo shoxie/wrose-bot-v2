@@ -1,17 +1,30 @@
 const QuickChart = require("quickchart-js");
 const { getMyChat } = require("../../collector/index");
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
+  let queryData = {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{ labels: "LineChart", data: [] }],
+    },
+  };
   let data = getMyChat(message.author.id);
+  data.forEach((e) => {
+    queryData.data.labels.push(e.date);
+    queryData.data.datasets[0].data.push(e.count);
+  });
   const myChart = new QuickChart();
   myChart.setConfig({
     type: "line",
     data: {
       labels: queryData.data.labels,
-      steppedLine: true,
       datasets: [
         {
-          label: message.guild.name + "'s top chat",
+          label: message.author.username + "'s chat history",
+          steppedLine: true,
           data: queryData.data.datasets[0].data,
+          borderColor: "rgb(255, 99, 132)",
+          fill: false,
         },
       ],
     },
@@ -23,6 +36,7 @@ exports.run = (client, message, args) => {
       },
     },
   });
+  message.channel.send(await myChart.getShortUrl());
 };
 exports.help = {
   name: "myChat",
