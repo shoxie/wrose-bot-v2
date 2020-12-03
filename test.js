@@ -1,12 +1,20 @@
-// const Discord = require("discord.js");
-// require("dotenv").config();
-// const client = new Discord.Client();
+const Discord = require("discord.js");
+require("dotenv").config();
+const client = new Discord.Client();
 
-// client.on("message", async (message) => {
-//   let { id, username } = await client.users.fetch(message.author.id);
-//   console.log(id, username);
-// });
-// client.login(process.env.token);
+client.on("message", async (message) => {
+  console.log("1");
+  let ignoredUsers = ["155622262660268033"];
+  console.log(ignoredUsers.includes(message.author.id));
+  if (ignoredUsers.includes(message.author.id)) {
+    try {
+      message.delete();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+client.login(process.env.devtoken);
 // const low = require("lowdb");
 // const FileSync = require("lowdb/adapters/FileSync");
 
@@ -63,18 +71,3 @@
 //   }
 //   return maxEl;
 // }
-const mongoose = require("mongoose");
-
-mongoose
-  .connect(
-    "mongodb://thinhdeptrai:thinhdeptrai123@ds261072.mlab.com:61072/testfc",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    }
-  )
-  .then(() => {
-    console.log("CONNECTED DIT CON ME MAY");
-  });

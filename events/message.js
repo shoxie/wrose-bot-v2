@@ -1,8 +1,17 @@
 const collector = require("../collector/");
+const data = require("../collector/db.json");
 module.exports = (client, message) => {
   // Ignore all bots
   if (message.author.bot) return;
-
+  data.ignoredUsers.forEach((u) => {
+    if (message.guild.id === u.guildID && message.author.id === u.userid) {
+      try {
+        message.delete();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
   collector.count(
     message.author.username,
     message.content,

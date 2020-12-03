@@ -4,7 +4,12 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("./collector/db.json");
 const db = low(adapter);
 const moment = require("moment");
-db.defaults({ records: [], users: [], ignoredChannels: [] }).write();
+db.defaults({
+  records: [],
+  users: [],
+  ignoredChannels: [],
+  ignoredUsers: [],
+}).write();
 async function count(username, content, userid, guildID, channelID) {
   db.read();
   let ignoredChannels = db.get("ignoredChannels").value();
@@ -104,7 +109,15 @@ function updateUsername(userid, name) {
     .update("name", (name) => (name = name))
     .write();
 }
-
+function addIgnoredUsers(userid, guildID) {
+  let data = db
+    .get("ignoredUsers")
+    .filter({ userid: userid, guildID: guildID })
+    .value();
+  if (data.length !== 0) return;
+  else
+    db.get("ignoredUsers").push({ userid: userid, guildID: guildID }).write();
+}
 module.exports = {
   count,
   spam,
@@ -113,4 +126,5 @@ module.exports = {
   getTop10,
   getOneUser,
   updateUsername,
+  addIgnoredUsers,
 };
