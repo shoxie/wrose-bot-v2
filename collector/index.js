@@ -6,6 +6,7 @@ const db = low(adapter);
 const moment = require("moment");
 db.defaults({ records: [], users: [], ignoredChannels: [] }).write();
 async function count(username, content, userid, guildID, channelID) {
+  db.read();
   let check_exist = db.get("ignoredChannels").find({ channelID }).value();
   if (check_exist) return;
   db.get("records")
@@ -28,7 +29,7 @@ async function count(username, content, userid, guildID, channelID) {
     db.get("users")
       .push({
         name: username,
-        userid: userid, 
+        userid: userid,
         guildID: guildID,
         count: 1,
         date: moment().format("DD/MM/YYYY"),
@@ -81,9 +82,20 @@ function getTop10(id = null) {
     return data;
   }
 }
-function getMyChat(userid, guildID) {
-  let data = db.get("users").filter({ userid: userid, guildID: guildID }).take(10).value();
+
+function getOneUser(userid, guildID) {
+  let data = db
+    .get("users")
+    .filter({ userid: userid, guildID: guildID })
+    .take(10)
+    .value();
   return data;
+}
+function updateUsername(userid, name) {
+  db.get("users")
+    .filter({ userid: userid })
+    .update("name", (name) => (name = name))
+    .write();
 }
 module.exports = {
   count,
@@ -91,5 +103,6 @@ module.exports = {
   db,
   addIgnore,
   getTop10,
-  getMyChat,
+  getOneUser,
+  updateUsername,
 };

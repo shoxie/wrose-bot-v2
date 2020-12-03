@@ -1,42 +1,63 @@
 const QuickChart = require("quickchart-js");
-const { getMyChat } = require("../../collector/index");
+const { getOneUser } = require("../../collector/index");
+const { randomColor } = require("../../functions/random");
+const { drawLineChart } = require("../../functions/chart");
 exports.run = async (client, message, args) => {
-  let queryData = {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{ labels: "LineChart", data: [] }],
-    },
-  };
-  let data = getMyChat(message.author.id, message.guild.id);
-  data.forEach((e) => {
-    queryData.data.labels.push(e.date);
-    queryData.data.datasets[0].data.push(e.count);
-  });
-  const myChart = new QuickChart();
-  myChart.setConfig({
-    type: "line",
-    data: {
-      labels: queryData.data.labels,
-      datasets: [
-        {
-          label: message.author.username + "'s chat history",
-          steppedLine: true,
-          data: queryData.data.datasets[0].data,
-          borderColor: "rgb(255, 99, 132)",
-          fill: false,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      title: {
-        display: true,
-        text: "Stepped line",
+  if (!args[0]) {
+    let queryData = {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "LineChart",
+            data: [],
+            borderColor: randomColor(),
+            fill: false,
+          },
+        ],
       },
-    },
-  });
-  message.channel.send(await myChart.getShortUrl());
+    };
+    let data = getOneUser(message.author.id, message.guild.id);
+    data.forEach((e) => {
+      queryData.data.labels.push(e.date);
+      queryData.data.datasets[0].data.push(e.count);
+    });
+    message.channel.send(
+      await drawLineChart(
+        "Chat",
+        queryData.data.labels,
+        queryData.data.datasets
+      )
+    );
+  }
+  if (args.length > 0) {
+    let legends = [],
+      temp = [],
+      datasets = [],
+      username;
+    message.mentions.members.forEach(async (member) => {
+      // wrose, tester
+      let chatData = getOneUser(member.user.id, message.guild.id); //wrose
+      chatData.forEach(async (mem) => {
+        if (!legends.includes(mem.date)) legends.push(mem.date);
+        temp.push(mem.count);
+        username = mem.name;
+        // let { id, username } = await client.users.fetch(message.author.id);
+      });
+      let data = {
+        label: username,
+        steppedLine: true,
+        data: [...temp],
+        borderColor: randomColor(),
+        fill: false,
+      };
+      datasets.push(data);
+      temp = [];
+      username = "";
+    });
+    message.channel.send(await drawLineChart("Chat", legends, datasets));
+  }
 };
 exports.help = {
   name: "myChat",

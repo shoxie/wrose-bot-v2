@@ -1,23 +1,24 @@
 const Discord = require("discord.js");
-
+require("dotenv").config();
 const client = new Discord.Client();
 
-client.on("message", (message) => {
-    message.author.username
+client.on("message", async (message) => {
+  let { id, username } = await client.users.fetch(message.author.id);
+  console.log(id, username);
 });
+client.login(process.env.token);
+// const low = require("lowdb");
+// const FileSync = require("lowdb/adapters/FileSync");
 
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
+// const adapter = new FileSync("./collector/db.json");
+// const db = low(adapter);
 
-const adapter = new FileSync("./collector/db.json");
-const db = low(adapter);
-
-var data = db
-  .get("users")
-  .find({ guildID: "335604901730058243" })
-  .take(10)
-  .value();
-console.log(data);
+// var data = db
+//   .get("users")
+//   .find({ guildID: "335604901730058243" })
+//   .take(10)
+//   .value();
+// console.log(data);
 // function getRecords() {
 //   let data = db.get("users").take(10).sortBy("count").value();
 //   let labels = [],

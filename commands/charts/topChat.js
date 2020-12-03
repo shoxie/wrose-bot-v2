@@ -1,5 +1,6 @@
 const { query } = require("express");
 const { getTop10 } = require("../../collector/index");
+const {randomColor} = require('../../functions/random')
 const QuickChart = require("quickchart-js");
 
 exports.run = async (client, message, args) => {
@@ -11,7 +12,6 @@ exports.run = async (client, message, args) => {
     },
   };
   let data = getTop10(message.guild.id);
-  console.log(data);
   data.forEach((e) => {
     if (e.name.length > 14) {
       e.name = e.name.slice(0, 13);
@@ -28,6 +28,8 @@ exports.run = async (client, message, args) => {
         {
           label: message.guild.name + "'s top chat",
           data: queryData.data.datasets[0].data,
+          borderColor: randomColor(),
+          fill: false,
         },
       ],
     },
