@@ -18,13 +18,17 @@ async function count(username, content, userid, guildID, channelID) {
     .write();
   let check = db
     .get("users")
-    .find({ userid: userid, guildID: guildID })
+    .find({
+      userid: userid,
+      guildID: guildID,
+      date: moment().format("DD/MM/YYYY"),
+    })
     .value();
   if (check === undefined)
     db.get("users")
       .push({
         name: username,
-        userid: userid,
+        userid: userid, 
         guildID: guildID,
         count: 1,
         date: moment().format("DD/MM/YYYY"),
@@ -32,7 +36,11 @@ async function count(username, content, userid, guildID, channelID) {
       .write();
   else
     db.get("users")
-      .find({ userid: userid, guildID: guildID })
+      .find({
+        userid: userid,
+        guildID: guildID,
+        date: moment().format("DD/MM/YYYY"),
+      })
       .update("count", (n) => n + 1)
       .write();
 }
@@ -73,10 +81,15 @@ function getTop10(id = null) {
     return data;
   }
 }
+function getMyChat(userid) {
+  let data = db.get("users").filter({ userid: userid }).take(10).value();
+  return data;
+}
 module.exports = {
   count,
   spam,
   db,
   addIgnore,
   getTop10,
+  getMyChat,
 };

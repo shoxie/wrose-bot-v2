@@ -38,5 +38,5 @@ exports.help = {
   name: "topChat",
   usage: "topChat",
   enabled: true,
-  category: "",
+  category: "charts",
 };
