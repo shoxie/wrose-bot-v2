@@ -18,7 +18,7 @@ async function drawLineChart(title = "LineChart", legends = [], datasets) {
       datasets: datasets,
     },
     options: {
-      responsive: true,
+      responsive: false,
       title: {
         display: true,
         text: title,

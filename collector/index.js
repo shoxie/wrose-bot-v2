@@ -7,8 +7,8 @@ const moment = require("moment");
 db.defaults({ records: [], users: [], ignoredChannels: [] }).write();
 async function count(username, content, userid, guildID, channelID) {
   db.read();
-  let check_exist = db.get("ignoredChannels").find({ channelID }).value();
-  if (check_exist) return;
+  let ignoredChannels = db.get("ignoredChannels").value();
+  if (ignoredChannels.includes(channelID)) return;
   db.get("records")
     .push({
       name: username,
@@ -88,8 +88,15 @@ function getOneUser(userid, guildID) {
     .get("users")
     .filter({ userid: userid, guildID: guildID })
     .take(10)
+    .sortBy("date")
     .value();
-  return data;
+  const sortedArray = data.sort(
+    (a, b) =>
+      new Date(a.date).format("DD/MM/YYYY") -
+      new Date(b.date).format("DD/MM/YYYY")
+  );
+
+  return sortedArray;
 }
 function updateUsername(userid, name) {
   db.get("users")
@@ -97,6 +104,7 @@ function updateUsername(userid, name) {
     .update("name", (name) => (name = name))
     .write();
 }
+
 module.exports = {
   count,
   spam,
