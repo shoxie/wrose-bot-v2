@@ -1,4 +1,3 @@
-const { query } = require("express");
 const { getTop10 } = require("../../collector/index");
 const {randomColor} = require('../../functions/random')
 const QuickChart = require("quickchart-js");

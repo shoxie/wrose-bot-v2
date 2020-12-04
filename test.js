@@ -3,16 +3,7 @@ require("dotenv").config();
 const client = new Discord.Client();
 
 client.on("message", async (message) => {
-  console.log("1");
-  let ignoredUsers = ["155622262660268033"];
-  console.log(ignoredUsers.includes(message.author.id));
-  if (ignoredUsers.includes(message.author.id)) {
-    try {
-      message.delete();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
 });
 client.login(process.env.devtoken);
 // const low = require("lowdb");

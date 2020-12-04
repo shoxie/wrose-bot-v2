@@ -72,6 +72,25 @@ module.exports = async (client) => {
         client.io.emit("SERVERMUSICDATA", package);
       }
     });
+    socket.on("getChannels", async (id) => {
+      let data = await client.guilds.fetch(id);
+
+      let channels = data.channels.cache.filter((x) => x.type === "text");
+      let a = [];
+
+      channels.forEach((c) => {
+        let channelData = {
+          name: c.name,
+          id: c.id,
+        };
+        a.push(channelData);
+      });
+      socket.emit("CHANNELS", a);
+    });
+    socket.on("chatToDiscord", async (data) => {
+      let channel = await client.channels.fetch(data.channelid);
+      channel.send(data.message);
+    });
     collector.spam(client);
   });
   http.listen(3000, () => {

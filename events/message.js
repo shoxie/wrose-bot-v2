@@ -32,7 +32,6 @@ module.exports = (client, message) => {
 
   // Grab the command data from the client.commands Enmap
   const cmd = client.commands.get(command);
-  // console.log(cmd)
   // If that command doesn't exist, silently exit and do nothing
   if (!cmd) return;
 

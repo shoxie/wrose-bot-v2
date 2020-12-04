@@ -14,7 +14,7 @@ async function check_exists(name, guildID) {
   return song
     .findOne({ song_name: name, guildID: guildID }, function (err, res) {
       if (err) console.log("no result");
-      // console.log(res);
+      // (res);
     })
     .exec();
 }
@@ -26,9 +26,7 @@ async function insert(name, artistname, guildID) {
       guildID: guildID,
       artist: artistname,
     });
-    await newsong.save().then(() => {
-      console.log("saved song for " + name);
-    });
+    await newsong.save();
   } else {
     await check.update({ $inc: { count: 1 } });
   }

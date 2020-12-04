@@ -6,19 +6,10 @@ async function drawLineChart(title = "LineChart", legends = [], datasets) {
     type: "line",
     data: {
       labels: legends,
-      //   datasets: [
-      //     {
-      //       label: message.author.username + "'s chat history",
-      //       steppedLine: true,
-      //       data: queryData.data.datasets[0].data,
-      //       borderColor: randomColor(),
-      //       fill: false,
-      //     },
-      //   ],
       datasets: datasets,
     },
     options: {
-      responsive: false,
+      responsive: true,
       title: {
         display: true,
         text: title,

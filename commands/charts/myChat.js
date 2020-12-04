@@ -4,7 +4,6 @@ const { randomColor } = require("../../functions/random");
 const { drawLineChart } = require("../../functions/chart");
 exports.run = async (client, message, args) => {
   if (!message.mentions.members.first()) {
-    console.log("no id");
     let queryData = {
       type: "line",
       data: {

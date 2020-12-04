@@ -63,7 +63,7 @@ mongoose
   })
   .then(() => {
     client.db = db;
-    console.log("CONNECTED DIT CON ME MAY");
+    console.log("DATBASE CONNECTED");
   });
 
 client.login(process.env.token);

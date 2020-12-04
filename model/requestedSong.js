@@ -21,7 +21,6 @@ async function check_exists(name, guildID) {
   return song
     .findOne({ songName: name, guildID: guildID }, function (err, res) {
       if (err) console.log("no result");
-      // console.log(res);
     })
     .exec();
 }
