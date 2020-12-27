@@ -14,14 +14,14 @@ async function count(username, content, userid, guildID, channelID) {
   db.read();
   let ignoredChannels = db.get("ignoredChannels").value();
   if (ignoredChannels.includes(channelID)) return;
-  db.get("records")
-    .push({
-      name: username,
-      content: content,
-      userid: userid,
-      guildID: guildID,
-    })
-    .write();
+  // db.get("records")
+  //   .push({
+  //     name: username,
+  //     content: content,
+  //     userid: userid,
+  //     guildID: guildID,
+  //   })
+  //   .write();
   let check = db
     .get("users")
     .find({

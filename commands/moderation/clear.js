@@ -1,17 +1,24 @@
 exports.run = (client, message, args) => {
   try {
     if (!args[0]) return;
-    if (!message.mentions.members) {
+    else if (message.mentions) {
+      let amount = 
+      let user = message.mentions.members.first();
+      let i = 0;
       message.channel.messages.cache.forEach((msg) => {
-        if (msg.author.id === message.author.id) message.delete();
+        if(amount) {
+          message.channel.messages.cache.forEach(msg => {
+            
+          })
+        }
+        if (msg.author.id === user.id) {
+          message.delete();
+          i++;
+        }
       });
-    } else {
-      let amount = parseInt(args[0]);
-      if (!amount) return;
-      message.channel.buldDelete(amount);
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   }
 };
 exports.help = {

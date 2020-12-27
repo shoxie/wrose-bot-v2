@@ -10,11 +10,9 @@ const config = require("./config/config.json");
 const { Player } = require("discord-music-player");
 const mongoose = require("mongoose");
 let db = require("./model/");
-// Create a new Player (you don't need any API Key)
 const player = new Player(client);
 const collector = require("./collector/index");
 client.db = collector.db;
-// To easily access the player
 client.player = player;
 client.config = config;
 client.io = io;

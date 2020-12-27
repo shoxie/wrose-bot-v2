@@ -12,13 +12,13 @@ module.exports = (client, message) => {
       }
     }
   });
-  collector.count(
-    message.author.username,
-    message.content,
-    message.author.id,
-    message.guild.id,
-    message.channel.id
-  );
+  // collector.count(
+  //   message.author.username,
+  //   message.content,
+  //   message.author.id,
+  //   message.guild.id,
+  //   message.channel.id
+  // );
 
   // Ignore messages not starting with the prefix (in config.json)
   if (message.content.indexOf(client.config.prefix) !== 0) return;
