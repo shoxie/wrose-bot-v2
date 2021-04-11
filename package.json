@@ -18,6 +18,7 @@
   "homepage": "https://github.com/shoxie/wrose-bot-v2#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "discord-music-player": "^6.0.1",
     "discord-paginationembed": "^2.1.0",

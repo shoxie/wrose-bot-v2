@@ -18,4 +18,5 @@ exports.help = {
   usage: "autoDelete",
   enabled: true,
   category: "",
+  info: "Automatically remove any message sent from [userid]"
 };

@@ -45,6 +45,10 @@ exports.run = (client, message, args) => {
               name: "Active status",
               value: data.help.enabled === true ? "Yes" : "No",
             },
+            {
+              name: "Information",
+              value: data.help?.info ?? "Not configured",
+            },
           ],
           thumbnail: {
             url: client.user.avatarURL(),
