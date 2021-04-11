@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
       .setTitle(movie.title)
       .setThumbnail(`https://image.tmdb.org/t/p/w500/` + movie.poster_path)
       .addField("ID", movie.id)
-      .addField('User Score', (movie.vote_average * 10) + "%")
+      .addField('User Score', (movie.vote_average * 10) + "% over " + movie.vote_count + " ratings")
       .addField("Overview", movie.overview)
       .addField("Genres : ", movie.genres.map((x) => x.name).join(", "))
       .addField(
